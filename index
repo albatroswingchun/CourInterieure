@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Salle Du Dragon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=5.0">
+  <style>
+      html, body {
+          margin: 0;
+          padding: 0;
+          background: #000;
+          height: 100vh;
+          width: 100vw;
+          overflow: hidden;
+          font-family: sans-serif;
+      }
+
+      body.modal-open {
+          overflow: hidden;
+      }
+
+      @keyframes pulse {
+          0% {
+              transform: scale(1);
+              box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+          }
+          50% {
+              transform: scale(1.05);
+              box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+          }
+          100% {
+              transform: scale(1);
+              box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+          }
+      }
+
+      #container {
+          overflow-y: auto;
+          overflow-x: hidden;
+          height: 100vh;
+          width: 100vw;
+          position: relative;
+      }
+
+      .imageWrapper {
+          position: relative;
+          width: 100%;
+      }
+
+      .imageWrapper img {
+          width: 100%;
+          display: block;
+      }
+
+      .zone {
+          position: absolute;
+          background-color: transparent;
+          cursor: pointer;
+          z-index: 2;
+      }
+
+      .zone:hover {
+          box-shadow: 0 0 20px 10px rgba(255, 255, 0, 0.4);
+          border-radius: 8px;
+      }
+
+      .courint {
+          top: 45%;
+          left: 8%;
+          width: 13%;
+          height: 23%;
+      }
+
+      .extmont {
+          top: 45%;
+          left: 78%;
+          width: 13%;
+          height: 23%;
+      }
+
+      .dragonfinal {
+          top: 65%;
+          left: 45%;
+          width: 12%;
+          height: 9%;
+      }
+
+      .porte4 {
+          top: 57.5%;
+          left: 73.5%;
+          width: 8.5%;
+          height: 16%;
+      }
+
+      .porte5 {
+          top: 60%;
+          left: 84.5%;
+          width: 8%;
+          height: 14%;
+      }
+
+      .fixedBtn {
+          position: fixed;
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          overflow: hidden;
+          background: rgba(0, 0, 0, 0.6);
+          box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+          border: 2px solid rgba(255, 255, 255, 0.6);
+          cursor: pointer;
+          animation: pulse 2.4s ease-in-out infinite;
+          z-index: 10;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: black;
+      }
+
+      #logoBtn {
+          bottom: 20px;
+          right: 20px;
+      }
+
+      #secondBtn {
+          bottom: 90px;
+          bottom: 95px;
+          right: 20px;
+      }
+
+      @keyframes scale-only {
+          0%, 100% {
+              transform: scale(1);
+          }
+          50% {
+              transform: scale(1.05);
+          }
+      }
+
+      #noteBtn {
+          bottom: 160px;
+          right: 20px;
+          right: 9px;
+      }
+
+      .fixedBtn img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transform: scale(1.4);
+          transition: transform 0.3s ease;
+      }
+
+      #secondBtn img {
+          transform: scale(1.28);
+      }
+
+      #logoBtn img {
+          transform: translateX(-1px) scale(1.4);
+      }
+
+      .fixedBtn:hover img {
+          transform: scale(1.5);
+      }
+
+      .noteBtn {
+          position: fixed;
+          bottom: 160px;
+          right: 20px;
+          width: 70px;
+          height: 70px;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          z-index: 10;
+          box-shadow: none;
+      }
+
+        .noteBtn img {
+          width: 70%;
+          height: 80%;
+          object-fit: contain;
+          filter: drop-shadow(1px 1px 10px white);
+          animation: scale-only 2.4s ease-in-out infinite;
+          transition: transform 0.3s ease;
+      }
+
+      .noteBtn:hover img {
+          transform: scale(1.08);
+      }
+
+      .popupOverlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0, 0, 0, 0.8);
+          display: none;
+          justify-content: center;
+          align-items: center;
+          z-index: 999;
+      }
+
+      .popupContent {
+          width: 90%;
+          max-width: 500px;
+          background: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+      }
+
+      .popupImage {
+          max-width: 100%;
+          max-height: 90vh;
+          border-radius: 12px;
+          box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      }
+
+      .closePopup {
+          position: absolute;
+          top: 10px;
+          right: 15px;
+          width: 28px;
+          height: 28px;
+          background: rgba(50, 50, 50, 0.3);
+          font-size: 42px;
+          color: white;
+          border-radius: 50%;
+          padding: 8px;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+      }
+
+      .arrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 28px;
+          height: 28px;
+          font-size: 23px;
+          color: white;
+          background: rgba(128, 128, 128, 0.3);
+          padding: 8px;
+          border-radius: 50%;
+          cursor: pointer;
+          z-index: 1000;
+      }
+
+      .arrow.left {
+          left: 5px;
+      }
+
+      .arrow.right {
+          right: 4px;
+      }
+
+      #scrollTarget {
+          position: absolute;
+          top: 63%;
+          left: 0;
+          width: 100%;
+          height: 1px;
+      }
+
+      #fullscreenBtn {
+          position: fixed;
+          top: 10px;
+          right: 10px;
+          z-index: 20;
+          background: rgba(0, 0, 0, 0.7);
+          border: 2px solid white;
+          padding: 6px 12px;
+          color: white;
+          font-size: 13px;
+          border-radius: 8px;
+          cursor: pointer;
+      }
+
+      .container-portrait {
+          display: none;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.9);
+          padding: 20px;
+          justify-content: center;
+          align-items: center;
+      }
+
+      .orientation-content {
+          max-width: 350px;
+          text-align: center;
+          line-height: 19px;
+          color: white;
+      }
+
+      .orientation-content span.yellow {
+          color: yellow;
+          font-weight: bold;
+      }
+
+      @media screen and (orientation: portrait) {
+          .container-portrait {
+              display: flex;
+          }
+          .container-landscape {
+              display: none;
+          }
+      }
+  </style>
+</head>
+
+<body>
+  <div class="container-portrait">
+    <div class="orientation-content">
+      <p>Pour une immersion optimale, passe en <span class="yellow">paysage</span> et clique sur <span class="yellow">Plein&nbsp;écran</span>.</p>
+    </div>
+  </div>
+
+  <div class="container-landscape">
+    <div id="fullscreenBtn">Plein écran</div>
+
+    <div id="container">
+      <div class="imageWrapper">
+        <img id="mainImage" src="https://i.imgur.com/4aha2sd.png" alt="Salle Du Dragon" />
+        <div id="scrollTarget"></div>
+        <a href="#" class="zone courint"></a>
+        <a href="#" class="zone extmont"></a>
+        <a href="#" class="zone dragonfinal"></a>
+        <a href="#" class="zone porte4"></a>
+        <a href="#" class="zone porte5"></a>
+      </div>
+    </div>
+
+    <div id="logoBtn" class="fixedBtn">
+      <img src="https://i.imgur.com/uGnH5XI.png" alt="Logo Albatros">
+    </div>
+
+    <div id="secondBtn" class="fixedBtn">
+      <img src="https://i.imgur.com/ayNer7u.png" alt="Règles">
+    </div>
+
+    <div id="noteBtn" class="noteBtn">
+      <img src="https://i.imgur.com/gRmhrKq.png" alt="Bloc-note">
+    </div>
+
+    <!-- Popup Bloc-note -->
+    <div id="notePopup" class="popupOverlay">
+      <div class="popupContent" style="background: #111; padding: 20px; border-radius: 12px;">
+        <span class="closePopup" onclick="notePopup.style.display='none'; document.body.classList.remove('modal-open');">&times;</span>
+        <textarea id="noteArea" placeholder="Écris ici..." style="width:100%;height:300px;padding:10px;font-size:1rem;border-radius:8px;background:#222;color:white;border:1px solid #555;"></textarea>
+      </div>
+    </div>
+
+    <!-- Popup 1 -->
+    <div id="popup1" class="popupOverlay">
+      <div class="popupContent">
+        <span class="closePopup">&times;</span>
+        <div class="arrow left">&#8592;</div>
+        <img class="popupImage" src="" alt="">
+        <div class="arrow right">&#8594;</div>
+      </div>
+    </div>
+
+    <!-- Popup 2 -->
+    <div id="popup2" class="popupOverlay">
+      <div class="popupContent">
+        <span class="closePopup">&times;</span>
+        <div class="arrow left">&#8592;</div>
+        <img class="popupImage" src="" alt="">
+        <div class="arrow right">&#8594;</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function initPopup(buttonId, popupId, images) {
+      const btn = document.getElementById(buttonId);
+      const popup = document.getElementById(popupId);
+      const img = popup.querySelector('.popupImage');
+      const left = popup.querySelector('.arrow.left');
+      const right = popup.querySelector('.arrow.right');
+      const close = popup.querySelector('.closePopup');
+
+      let index = 0;
+
+      function updateImage() {
+        img.src = images[index];
+        left.style.display = index === 0 ? 'none' : 'block';
+        right.style.display = index === images.length - 1 ? 'none' : 'block';
+      }
+
+      btn.addEventListener('click', () => {
+        popup.style.display = 'flex';
+        document.body.classList.add('modal-open');
+        index = 0;
+        updateImage();
+      });
+
+      close.addEventListener('click', () => {
+        popup.style.display = 'none';
+        document.body.classList.remove('modal-open');
+      });
+
+      popup.addEventListener('click', (e) => {
+        if (e.target === popup) {
+          popup.style.display = 'none';
+          document.body.classList.remove('modal-open');
+        }
+      });
+
+      left.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (index > 0) {
+          index--;
+          updateImage();
+        }
+      });
+
+      right.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (index < images.length - 1) {
+          index++;
+          updateImage();
+        }
+      });
+    }
+
+    initPopup('logoBtn', 'popup1', [
+      'https://i.imgur.com/uGnH5XI.png',
+      'https://i.imgur.com/javiPf0.png',
+      'https://i.imgur.com/Lj0HqCo.png',
+      'https://i.imgur.com/exxUNyF.png',
+      'https://i.imgur.com/QZZqsrk.png',
+      'https://i.imgur.com/6GtLt0X.png',
+    ]);
+
+    initPopup('secondBtn', 'popup2', [
+      'https://i.imgur.com/ayNer7u.png',
+      'https://i.imgur.com/aLNoNg3.png',
+      'https://i.imgur.com/br5f9WL.png',
+      'https://i.imgur.com/78d9HDe.png',
+      'https://i.imgur.com/ZVGY4HX.png'
+    ]);
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('container');
+      const image = document.getElementById('mainImage');
+
+      const tryScroll = (maxAttempts = 30, attempt = 0) => {
+        if (image && container && image.naturalHeight > 0) {
+          const imageHeight = image.naturalHeight * (image.clientWidth / image.naturalWidth);
+          const scrollY = imageHeight * 0.63 - container.clientHeight / 2;
+          container.scrollTop = scrollY;
+        } else if (attempt < maxAttempts) {
+          setTimeout(() => tryScroll(maxAttempts, attempt + 1), 100);
+        }
+      };
+
+      if (image.complete) {
+        tryScroll();
+      } else {
+        image.addEventListener('load', () => tryScroll());
+      }
+    });
+
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    fullscreenBtn.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          alert(`Erreur de passage en plein écran : ${err.message}`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    });
+
+    // Bloc-note
+    const noteBtn = document.getElementById('noteBtn');
+    const notePopup = document.getElementById('notePopup');
+    const noteArea = document.getElementById('noteArea');
+
+    noteArea.value = localStorage.getItem('blocNote') || "";
+
+    noteArea.addEventListener('input', () => {
+      localStorage.setItem('blocNote', noteArea.value);
+    });
+
+    noteBtn.addEventListener('click', () => {
+      notePopup.style.display = 'flex';
+      document.body.classList.add('modal-open');
+    });
+  </script>
+</body>
+</html>
