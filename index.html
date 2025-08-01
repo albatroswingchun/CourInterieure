@@ -19,6 +19,10 @@
           overflow: hidden;
       }
 
+      #scene-montagne {
+          display: none;
+      }
+
       @keyframes pulse {
           0% {
               transform: scale(1);
@@ -34,7 +38,7 @@
           }
       }
 
-      #container {
+      #container, #containerMontagne {
           overflow-y: auto;
           overflow-x: hidden;
           height: 100vh;
@@ -171,11 +175,80 @@
      }
 
      .porte5 {
-        top: 60%;
-        left: 84.5%;
-        width: 8%;
-        height: 14%;
-     }
+          top: 60%;
+          left: 84.5%;
+          width: 8%;
+          height: 14%;
+       }
+
+       /* Scène montagne */
+       .retourIndex {
+          position: absolute;
+          top: 88%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 100px;
+          height: 120px;
+          background: none;
+          border: none;
+          outline: none;
+          padding: 0;
+          margin: 0;
+          cursor: pointer;
+          z-index: 10;
+          -webkit-tap-highlight-color: transparent;
+       }
+
+       @media (max-width: 768px) {
+         .retourIndex {
+           top: 90%;
+         }
+       }
+
+       .retourIndex::before {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 0;
+          height: 0;
+          border-left: 50px solid transparent;
+          border-right: 50px solid transparent;
+          border-top: 60px solid rgba(255, 255, 0, 0.5);
+          animation: pulseYellow 2s infinite ease-in-out;
+          pointer-events: none;
+       }
+
+       .retourIndex:hover::before {
+          border-top-color: rgba(255, 255, 0, 1);
+       }
+
+       .porte1 {
+          top: 40%;
+          left: 9%;
+          width: 20%;
+          height: 33%;
+       }
+
+       .porte2 {
+          top: 48%;
+          left: 41%;
+          width: 13.5%;
+          height: 25%;
+       }
+
+       .porte3 {
+          top: 54%;
+          left: 60%;
+          width: 10%;
+          height: 19%;
+       }
+
+       .zone:hover {
+          box-shadow: 0 0 20px 10px rgba(255, 255, 0, 0.4);
+          border-radius: 8px;
+       }
 
      .fixedBtn {
           position: fixed;
@@ -336,7 +409,7 @@
           right: 4px;
       }
 
-      #scrollTarget {
+      #scrollTarget, #scrollTargetMontagne {
           position: absolute;
           top: 63%;
           left: 0;
@@ -421,75 +494,100 @@
 </head>
 
 <body>
-  <div class="container-portrait">
-    <div class="orientation-content">
-      <p>Pour une immersion optimale, passe en <span class="yellow">paysage</span> et clique sur <span class="yellow">Plein&nbsp;écran</span>.</p>
-    </div>
-  </div>
-
-  <div class="container-landscape">
-    <div id="fullscreenBtn">Plein écran</div>
-
-    <!-- Apparition progressive du Dragon -->
-<div id="awakeningSequence">
-  <img id="dragonStep1" src="https://i.imgur.com/IPrCed1.png" alt="Éveil du Dragon">
-  <img id="dragonStep2" src="https://i.imgur.com/ERxToqK.png" alt="Dragon Révélé">
-</div>
-
-    <div id="container">
-      <div class="imageWrapper">
-        <img id="mainImage" src="https://i.imgur.com/4aha2sd.png" alt="Salle Du Dragon" />
-        <div id="scrollTarget"></div>
-        <a href="#" class="zone extmont" data-target="montagne.html"></a>
-        <a href="https://albatroswingchun.github.io/leveildudragon/cour" class="zone courint"></a>
-        <a href="#" class="zone dragonfinal"></a>
-        <a href="#" class="zone porte4"></a>
-        <a href="#" class="zone porte5"></a>
+   <div id="scene-dragon">
+    <div class="container-portrait">
+      <div class="orientation-content">
+        <p>Pour une immersion optimale, passe en <span class="yellow">paysage</span> et clique sur <span class="yellow">Plein&nbsp;écran</span>.</p>
       </div>
     </div>
 
+ <div class="container-landscape">
+      <!-- Apparition progressive du Dragon -->
+      <div id="awakeningSequence">
+        <img id="dragonStep1" src="https://i.imgur.com/IPrCed1.png" alt="Éveil du Dragon">
+        <img id="dragonStep2" src="https://i.imgur.com/ERxToqK.png" alt="Dragon Révélé">
+      </div>
+
+    <div id="container">
+        <div class="imageWrapper">
+          <img id="mainImage" src="https://i.imgur.com/4aha2sd.png" alt="Salle Du Dragon" />
+          <div id="scrollTarget"></div>
+          <a href="#" class="zone extmont"></a>
+          <a href="https://albatroswingchun.github.io/leveildudragon/cour" class="zone courint"></a>
+          <a href="#" class="zone dragonfinal"></a>
+          <a href="#" class="zone porte4"></a>
+          <a href="#" class="zone porte5"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
         <!-- Conteneur pour charger dynamiquement la salle Montagne -->
     <div id="montagneContainer" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 999;"></div>
+
+   <div id="scene-montagne">
+    <div class="container-portrait">
+      <div class="orientation-content">
+        <p>Pour une immersion optimale, passe en <span class="yellow">paysage</span> et clique sur <span class="yellow">Plein&nbsp;écran</span>.</p>
+      </div>
+    </div>
+
+    <div class="container-landscape">
+      <div id="containerMontagne">
+        <div class="imageWrapper">
+          <img id="mainImageMontagne" src="https://i.imgur.com/AG68Kpz.png" alt="Portes du Dragon" />
+          <div id="scrollTargetMontagne"></div>
+          <a href="#" class="zone porte1"></a>
+          <a href="#" class="zone porte2"></a>
+          <a href="#" class="zone porte3"></a>
+          <a href="#" class="zone porte4"></a>
+          <a href="#" class="zone porte5"></a>
+          <a href="#" class="retourIndex"></a>
+        </div>
+      </div>
+    </div>
+
+    <div id="fullscreenBtn">Plein écran</div>
 
 
     <div id="logoBtn" class="fixedBtn">
       <img src="https://i.imgur.com/uGnH5XI.png" alt="Logo Albatros">
     </div>
 
-    <div id="secondBtn" class="fixedBtn">
+    <div id="secondBtn" class="fixedBtn"> 
+
       <img src="https://i.imgur.com/ayNer7u.png" alt="Règles">
-    </div>
+  </div>
 
-    <div id="noteBtn" class="noteBtn">
-      <img src="https://i.imgur.com/gRmhrKq.png" alt="Bloc-note">
-    </div>
+  <div id="noteBtn" class="noteBtn">
+    <img src="https://i.imgur.com/gRmhrKq.png" alt="Bloc-note">
+  </div>
 
-    <!-- Popup Bloc-note -->
-    <div id="notePopup" class="popupOverlay">
-      <div class="popupContent" style="background: #111; padding: 20px; border-radius: 12px;">
-        <span class="closePopup" onclick="notePopup.style.display='none'; document.body.classList.remove('modal-open');">&times;</span>
-        <textarea id="noteArea" placeholder="N'hésites pas à prendre des notes ici..." style="width:100%;height:300px;padding:10px;font-size:1rem;border-radius:8px;background:#222;color:white;border:1px solid #555;"></textarea>
-      </div>
+     <!-- Popup Bloc-note -->
+  <div id="notePopup" class="popupOverlay">
+    <div class="popupContent" style="background: #111; padding: 20px; border-radius: 12px;">
+      <span class="closePopup" onclick="notePopup.style.display='none'; document.body.classList.remove('modal-open');">&times;</span>
+      <textarea id="noteArea" placeholder="N'hésites pas à prendre des notes ici..." style="width:100%;height:300px;padding:10px;font-size:1rem;border-radius:8px;background:#222;color:white;border:1px solid #555;"></textarea>
     </div>
+  </div>
 
     <!-- Popup 1 -->
-    <div id="popup1" class="popupOverlay">
-      <div class="popupContent">
-        <span class="closePopup">&times;</span>
-        <div class="arrow left">&#8592;</div>
-        <img class="popupImage" src="" alt="">
-        <div class="arrow right">&#8594;</div>
-      </div>
+  <div id="popup1" class="popupOverlay">
+    <div class="popupContent">
+      <span class="closePopup">&times;</span>
+      <div class="arrow left">&#8592;</div>
+      <img class="popupImage" src="" alt="">
+      <div class="arrow right">&#8594;</div>
     </div>
+  </div>
 
     <!-- Popup 2 -->
-    <div id="popup2" class="popupOverlay">
-      <div class="popupContent">
-        <span class="closePopup">&times;</span>
-        <div class="arrow left">&#8592;</div>
-        <img class="popupImage" src="" alt="">
-        <div class="arrow right">&#8594;</div>
-      </div>
+  <div id="popup2" class="popupOverlay">
+    <div class="popupContent">
+      <span class="closePopup">&times;</span>
+      <div class="arrow left">&#8592;</div>
+      <img class="popupImage" src="" alt="">
+      <div class="arrow right">&#8594;</div>
     </div>
   </div>
 
@@ -575,24 +673,30 @@
     ]);
 
     window.addEventListener('DOMContentLoaded', () => {
-      const container = document.getElementById('container');
-      const image = document.getElementById('mainImage');
+      const setupScroll = (containerId, imageId) => {
+        const container = document.getElementById(containerId);
+        const image = document.getElementById(imageId);
 
-      const tryScroll = (maxAttempts = 30, attempt = 0) => {
-        if (image && container && image.naturalHeight > 0) {
-          const imageHeight = image.naturalHeight * (image.clientWidth / image.naturalWidth);
-          const scrollY = imageHeight * 0.63 - container.clientHeight / 2;
-          container.scrollTop = scrollY;
-        } else if (attempt < maxAttempts) {
-          setTimeout(() => tryScroll(maxAttempts, attempt + 1), 100);
+        const tryScroll = (maxAttempts = 30, attempt = 0) => {
+          if (image && container && image.naturalHeight > 0) {
+            const imageHeight = image.naturalHeight * (image.clientWidth / image.naturalWidth);
+            const scrollY = imageHeight * 0.63 - container.clientHeight / 2;
+            container.scrollTop = scrollY;
+          } else if (attempt < maxAttempts) {
+            setTimeout(() => tryScroll(maxAttempts, attempt + 1), 100);
+          }
+        };
+
+        if (image.complete) {
+          tryScroll();
+        } else {
+          image.addEventListener('load', () => tryScroll());
         }
       };
 
-      if (image.complete) {
-        tryScroll();
-      } else {
-        image.addEventListener('load', () => tryScroll());
-      }
+      setupScroll('container', 'mainImage');
+      setupScroll('containerMontagne', 'mainImageMontagne');
+      
     });
 
     const fullscreenBtn = document.getElementById('fullscreenBtn');
@@ -685,16 +789,23 @@ function checkSecretCode() {
     }
 
     </script>
-  
-      < script src = "/leveildudragon/js/blocnote.js" > </ script > 
-      < script >
-        document.querySelectorAll('.extmont').forEach(link => {
-          link.addEventListener('click', (e) => {
-          e.preventDefault();
-          localStorage.setItem('forceFullscreen', 'true');
-          window.location.href = link.href;
-        });
+
+    <script src="/leveildudragon/js/blocnote.js"></script>
+    <script>
+      function showScene(id) {
+        document.getElementById('scene-dragon').style.display = id === 'scene-dragon' ? 'block' : 'none';
+        document.getElementById('scene-montagne').style.display = id === 'scene-montagne' ? 'block' : 'none';
+      }
+
+      document.querySelector('.extmont').addEventListener('click', (e) => {
+        e.preventDefault();
+        showScene('scene-montagne');
       });
+
+      document.querySelector('.retourIndex').addEventListener('click', (e) => {
+        e.preventDefault();
+        showScene('scene-dragon');
+      });  
     </script>
   
   </body>
