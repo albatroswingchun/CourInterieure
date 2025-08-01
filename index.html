@@ -686,26 +686,15 @@ function checkSecretCode() {
 
     </script>
   
-    <script src="/leveildudragon/js/blocnote.js">
-
-      document.querySelector('.extmont').addEventListener('click', async (e) => {
-  e.preventDefault();
-  const container = document.getElementById('montagneContainer');
-  const target = e.currentTarget.getAttribute('data-target');
-
-  try {
-    const response = await fetch(target);
-    if (!response.ok) throw new Error('Erreur de chargement : ' + response.status);
-    const html = await response.text();
-    container.innerHTML = html;
-    container.style.display = 'block';
-    document.getElementById('container').style.display = 'none';
-  } catch (err) {
-    alert('Impossible de charger la salle : ' + err.message);
-  }
-});
-
-
+      < script src = "/leveildudragon/js/blocnote.js" > </ script > 
+      < script >
+        document.querySelectorAll('.extmont').forEach(link => {
+          link.addEventListener('click', (e) => {
+          e.preventDefault();
+          localStorage.setItem('forceFullscreen', 'true');
+          window.location.href = link.href;
+        });
+      });
     </script>
   
   </body>
