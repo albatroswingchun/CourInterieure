@@ -2,154 +2,582 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>L'Eveil du Dragon</title>
+  <title>Salle Du Dragon</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=5.0">
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: #000;
-      height: 100vh;
-      width: 100vw;
-      overflow: hidden;
-      font-family: sans-serif;
-    }
+      html, body {
+          margin: 0;
+          padding: 0;
+          background: #000;
+          height: 100vh;
+          width: 100vw;
+          overflow: hidden;
+          font-family: sans-serif;
+      }
 
-    #container {
-      overflow-y: auto;
-      overflow-x: hidden;
-      height: 100vh;
-      width: 100vw;
-      position: relative;
-    }
+      body.modal-open {
+          overflow: hidden;
+      }
 
-    .imageWrapper {
-      position: relative;
-      width: 100%;
-    }
+      @keyframes pulse {
+          0% {
+              transform: scale(1);
+              box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+          }
+          50% {
+              transform: scale(1.05);
+              box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+          }
+          100% {
+              transform: scale(1);
+              box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+          }
+      }
 
-    .imageWrapper img {
-      width: 100%;
-      display: block;
-    }
+      #container {
+          overflow-y: auto;
+          overflow-x: hidden;
+          height: 100vh;
+          width: 100vw;
+          position: relative;
+      }
 
-    .zone {
+      .imageWrapper {
+          position: relative;
+          width: 100%;
+      }
+
+      .imageWrapper img {
+          width: 100%;
+          display: block;
+      }
+
+     .zone {
+         all: unset;
+         position: absolute;
+         display: block;
+         cursor: pointer;
+         pointer-events: auto;
+       }
+
+
+     .extmont, .courint {
+         position: absolute;
+         width: 100px;
+         height: 120px;
+         background: none;
+         border: none;
+         outline: none;
+         padding: 0;
+         margin: 0;
+         cursor: pointer;
+         z-index: 10;
+         -webkit-tap-highlight-color: transparent;
+       }
+
+     .extmont {
+         top: 70%;
+         left: 15%;
+         transform: translate(-50%,-50%);
+       }
+
+     .courint {
+         top: 70%;
+         left: 85%;
+         transform: translate(-50%,-50%);
+       }
+
+     @media (max-width: 768px) {
+     .courint {
+         left: 87%;
+       }
+     .extmont {
+         left: 13%;
+       }
+     }
+       /* Flèches visibles et pulsantes */
+     .extmont::before,
+     .courint::before {
+      content: "";
       position: absolute;
-      background-color: transparent;
-      cursor: pointer;
-      z-index: 2;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 0;
+      height: 0;
+      border-top: 50px solid transparent;
+      border-bottom: 50px solid transparent;
+      animation: pulseYellow 2s infinite ease-in-out;
+      pointer-events: none;
     }
 
-    .zone:hover {
-      box-shadow: 0 0 20px 10px rgba(255, 255, 0, 0.4);
-      border-radius: 8px;
+    .extmont::before {
+        border-right: 60px solid rgba(255, 255, 0, 0.5);
     }
 
-    .fixedBtn {
+    .courint::before {
+        border-left: 60px solid rgba(255, 255, 0, 0.5);
+    }
+
+
+     .extmont:hover::before {
+         border-right-color: rgba(255, 255, 0, 1);
+       }
+
+     .courint:hover::before {
+         border-left-color: rgba(255, 255, 0, 1);
+       }
+
+     @keyframes pulseYellow {
+           0%, 100% {
+           filter: drop-shadow(0 0 4px rgba(255, 255, 0, 0.3));
+         }
+         50% {
+           filter: drop-shadow(0 0 12px rgba(255, 255, 0, 0.8));
+         }
+       }
+
+     .dragonfinal {
+         top: 65%;
+         left: 44%;
+         width: 12%;
+         height: 9%;
+         z-index: 10;
+     }
+
+     .dragonfinal::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(255, 255, 0, 0.4);
+        animation: pulseYellow 2s infinite ease-in-out;
+        pointer-events: none;
+     }
+
+     .dragonfinal:hover::before {
+        background: rgba(255, 255, 0, 1);
+     }
+    
+     .porte4 {
+        top: 57.5%;
+        left: 73.5%;
+        width: 8.5%;
+        height: 16%;
+     }
+
+     .porte5 {
+        top: 60%;
+        left: 84.5%;
+        width: 8%;
+        height: 14%;
+     }
+
+     .fixedBtn {
+          position: fixed;
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          overflow: hidden;
+          box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+          border: 2px solid black;
+          cursor: pointer;
+          animation: pulse 2.4s ease-in-out infinite;
+          z-index: 10;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: black;
+      }
+
+      #logoBtn {
+          bottom: 90px;
+          right: 20px;
+      }
+
+      #secondBtn {
+          bottom: 20px;
+          right: 20px;
+      }
+
+      @keyframes scale-only {
+          0%, 100% {
+              transform: scale(1);
+          }
+          50% {
+              transform: scale(1.05);
+          }
+      }
+
+      #noteBtn {
+          bottom: 160px;
+          right: 20px;
+          right: 9px;
+      }
+
+      .fixedBtn img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transform: scale(1.4);
+          transition: transform 0.3s ease;
+      }
+
+      #secondBtn img {
+          transform: scale(1.28);
+      }
+
+      #logoBtn img {
+          transform: translateX(-1px) scale(1.4);
+      }
+
+      .fixedBtn:hover img {
+          transform: scale(1.5);
+      }
+
+      .noteBtn {
+          position: fixed;
+          bottom: 160px;
+          right: 20px;
+          width: 70px;
+          height: 70px;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          z-index: 10;
+          box-shadow: none;
+      }
+
+        .noteBtn img {
+          width: 70%;
+          height: 80%;
+          object-fit: contain;
+          filter: drop-shadow(1px 1px 10px white);
+          animation: scale-only 2.4s ease-in-out infinite;
+          transition: transform 0.3s ease;
+      }
+
+      .noteBtn:hover img {
+          transform: scale(1.08);
+      }
+
+      .popupOverlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0, 0, 0, 0.8);
+          display: none;
+          justify-content: center;
+          align-items: center;
+          z-index: 999;
+      }
+
+      .popupContent {
+          width: 90%;
+          max-width: 500px;
+          background: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+      }
+
+      .popupImage {
+          max-width: 100%;
+          max-height: 90vh;
+          border-radius: 12px;
+          box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      }
+
+      .closePopup {
+          position: absolute;
+          top: 10px;
+          right: 15px;
+          width: 28px;
+          height: 28px;
+          background: rgba(50, 50, 50, 0.3);
+          font-size: 42px;
+          color: white;
+          border-radius: 50%;
+          padding: 8px;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+      }
+
+      .arrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 28px;
+          height: 28px;
+          font-size: 23px;
+          color: white;
+          background: rgba(128, 128, 128, 0.3);
+          padding: 8px;
+          border-radius: 50%;
+          cursor: pointer;
+          z-index: 1000;
+      }
+
+      .arrow.left {
+          left: 5px;
+      }
+
+      .arrow.right {
+          right: 4px;
+      }
+
+      #scrollTarget {
+          position: absolute;
+          top: 63%;
+          left: 0;
+          width: 100%;
+          height: 1px;
+      }
+
+      #fullscreenBtn {
+          position: fixed;
+          top: 10px;
+          right: 10px;
+          z-index: 20;
+          background: rgba(0, 0, 0, 0.7);
+          border: 2px solid white;
+          padding: 6px 12px;
+          color: white;
+          font-size: 13px;
+          border-radius: 8px;
+          cursor: pointer;
+      }
+
+      .container-portrait {
+          display: none;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.9);
+          padding: 20px;
+          justify-content: center;
+          align-items: center;
+      }
+
+      .orientation-content {
+          max-width: 350px;
+          text-align: center;
+          line-height: 19px;
+          color: white;
+      }
+
+      .orientation-content span.yellow {
+          color: yellow;
+          font-weight: bold;
+      }
+
+    #awakeningSequence {
       position: fixed;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-      border: 2px solid black;
-      cursor: pointer;
-      z-index: 10;
-      background: black;
-      display: flex;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.9);
+      display: none;
       justify-content: center;
       align-items: center;
+      z-index: 9999;
+      flex-direction: column;
     }
 
-    .fixedBtn img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    #awakeningSequence img {
+      position: absolute;
+      max-width: 60%;
+      opacity: 0;
+      transition: transform 3s ease, opacity 2s ease;
     }
 
-    #fullscreenBtn {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      z-index: 20;
-      background: rgba(0, 0, 0, 0.7);
-      border: 2px solid white;
-      padding: 6px 12px;
-      color: white;
-      font-size: 13px;
-      border-radius: 8px;
-      cursor: pointer;
+    #dragonStep1 {
+      z-index: 1;
     }
+
+    #dragonStep2 {
+      z-index: 2;
+      transform: scale(1);
+    }
+
+      @media screen and (orientation: portrait) {
+          .container-portrait {
+              display: flex;
+          }
+          .container-landscape {
+              display: none;
+          }
+      }
   </style>
 </head>
 
 <body>
-  <div id="fullscreenBtn">Plein écran</div>
-
-  <div id="container">
-    <div class="imageWrapper">
-      <img id="mainImage" src="https://i.imgur.com/AG68Kpz.png" alt="Visuel principal" />
+  <div class="container-portrait">
+    <div class="orientation-content">
+      <p>Pour une immersion optimale, passe en <span class="yellow">paysage</span> et clique sur <span class="yellow">Plein&nbsp;écran</span>.</p>
     </div>
   </div>
 
-  <div id="logoBtn" class="fixedBtn" style="bottom: 95px; right: 20px;">
-    <img src="https://i.imgur.com/uGnH5XI.png" alt="Logo Albatros">
+  <div class="container-landscape">
+    <div id="fullscreenBtn">Plein écran</div>
+
+    <!-- Apparition progressive du Dragon -->
+<div id="awakeningSequence">
+  <img id="dragonStep1" src="https://i.imgur.com/IPrCed1.png" alt="Éveil du Dragon">
+  <img id="dragonStep2" src="https://i.imgur.com/ERxToqK.png" alt="Dragon Révélé">
+</div>
+
+    <div id="container">
+      <div class="imageWrapper">
+        <img id="mainImage" src="https://i.imgur.com/4aha2sd.png" alt="Salle Du Dragon" />
+        <div id="scrollTarget"></div>
+        <a href="#" class="zone extmont" data-target="montagne.html"></a>
+        <a href="https://albatroswingchun.github.io/leveildudragon/cour" class="zone courint"></a>
+        <a href="#" class="zone dragonfinal"></a>
+        <a href="#" class="zone porte4"></a>
+        <a href="#" class="zone porte5"></a>
+      </div>
+    </div>
+
+        <!-- Conteneur pour charger dynamiquement la salle Montagne -->
+    <div id="montagneContainer" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 999;"></div>
+
+
+    <div id="logoBtn" class="fixedBtn">
+      <img src="https://i.imgur.com/uGnH5XI.png" alt="Logo Albatros">
+    </div>
+
+    <div id="secondBtn" class="fixedBtn">
+      <img src="https://i.imgur.com/ayNer7u.png" alt="Règles">
+    </div>
+
+    <div id="noteBtn" class="noteBtn">
+      <img src="https://i.imgur.com/gRmhrKq.png" alt="Bloc-note">
+    </div>
+
+    <!-- Popup Bloc-note -->
+    <div id="notePopup" class="popupOverlay">
+      <div class="popupContent" style="background: #111; padding: 20px; border-radius: 12px;">
+        <span class="closePopup" onclick="notePopup.style.display='none'; document.body.classList.remove('modal-open');">&times;</span>
+        <textarea id="noteArea" placeholder="N'hésites pas à prendre des notes ici..." style="width:100%;height:300px;padding:10px;font-size:1rem;border-radius:8px;background:#222;color:white;border:1px solid #555;"></textarea>
+      </div>
+    </div>
+
+    <!-- Popup 1 -->
+    <div id="popup1" class="popupOverlay">
+      <div class="popupContent">
+        <span class="closePopup">&times;</span>
+        <div class="arrow left">&#8592;</div>
+        <img class="popupImage" src="" alt="">
+        <div class="arrow right">&#8594;</div>
+      </div>
+    </div>
+
+    <!-- Popup 2 -->
+    <div id="popup2" class="popupOverlay">
+      <div class="popupContent">
+        <span class="closePopup">&times;</span>
+        <div class="arrow left">&#8592;</div>
+        <img class="popupImage" src="" alt="">
+        <div class="arrow right">&#8594;</div>
+      </div>
+    </div>
   </div>
 
-  <div id="secondBtn" class="fixedBtn" style="bottom: 20px; right: 20px;">
-    <img src="https://i.imgur.com/ayNer7u.png" alt="Règles">
+<!-- Popup Code Secret -->
+<div id="codePopup" class="popupOverlay">
+  <div class="popupContent" style="flex-direction: column; background: #111; padding: 30px; border-radius: 12px;">
+    <span class="closePopup" onclick="document.getElementById('codePopup').style.display='none'; document.body.classList.remove('modal-open');">&times;</span>
+    <h2 style="color: white; margin-bottom: 10px;">Inscris-ici le rituel à prononcer...</h2>
+    <input id="secretInput" type="text" placeholder="Code..." autocomplete="off" spellcheck="false" style="width: 80%; max-width: 600px; padding: 18px; font-size: 22px; border-radius: 8px; border: 2px solid #ccc; margin-bottom: 12px;background: #222; color: white; text-align: center;">
+    <button onclick="checkSecretCode()" style="padding: 10px 20px; font-size: 16px; background: gold; color: black; border: none; border-radius: 6px; cursor: pointer;">Valider</button>
+    <p id="codeError" style="color: red; display: none; margin-top: 10px;">Code incorrect.</p>
   </div>
-
-  <div id="noteBtn" class="fixedBtn" style="bottom: 160px; right: 20px;">
-    <img src="https://i.imgur.com/gRmhrKq.png" alt="Bloc-note">
-  </div>
-
+</div>
+  
   <script>
-    const salles = {
-      montagne: {
-        image: "https://i.imgur.com/AG68Kpz.png",
-        zones: [
-          { class: "porte1", top: "40%", left: "9%", width: "20%", height: "33%", action: () => changerSalle('dragon') },
-          { class: "porte2", top: "48%", left: "41%", width: "13.5%", height: "25%", action: () => changerSalle('dragon') },
-          { class: "porte3", top: "54%", left: "60%", width: "10%", height: "19%", action: () => changerSalle('dragon') },
-          { class: "porte4", top: "57.5%", left: "73.5%", width: "8.5%", height: "16%", action: () => changerSalle('dragon') },
-          { class: "porte5", top: "60%", left: "84.5%", width: "8%", height: "14%", action: () => changerSalle('dragon') }
-        ]
-      },
-      dragon: {
-        image: "https://i.imgur.com/c6RyYT0.png",
-        zones: [
-          { class: "porteDragon", top: "55%", left: "32%", width: "11%", height: "20%", action: () => alert("Accès porte Dragon") }
-        ]
+    function initPopup(buttonId, popupId, images) {
+      const btn = document.getElementById(buttonId);
+      const popup = document.getElementById(popupId);
+      const img = popup.querySelector('.popupImage');
+      const left = popup.querySelector('.arrow.left');
+      const right = popup.querySelector('.arrow.right');
+      const close = popup.querySelector('.closePopup');
+
+      let index = 0;
+
+      function updateImage() {
+        img.src = images[index];
+        left.style.display = index === 0 ? 'none' : 'block';
+        right.style.display = index === images.length - 1 ? 'none' : 'block';
       }
-    };
 
-    function changerSalle(nom) {
-      const salle = salles[nom];
-      if (!salle) return;
-      const wrapper = document.querySelector('.imageWrapper');
-      const mainImage = document.getElementById('mainImage');
-      mainImage.src = salle.image;
-      document.querySelectorAll('.zone').forEach(z => z.remove());
+      btn.addEventListener('click', () => {
+        popup.style.display = 'flex';
+        document.body.classList.add('modal-open');
+        index = 0;
+        updateImage();
+      });
 
-      salle.zones.forEach(zone => {
-        const z = document.createElement('a');
-        z.className = `zone ${zone.class}`;
-        Object.assign(z.style, {
-          top: zone.top,
-          left: zone.left,
-          width: zone.width,
-          height: zone.height
-        });
-        z.addEventListener('click', zone.action);
-        wrapper.appendChild(z);
+      close.addEventListener('click', () => {
+        popup.style.display = 'none';
+        document.body.classList.remove('modal-open');
+      });
+
+      popup.addEventListener('click', (e) => {
+        if (e.target === popup) {
+          popup.style.display = 'none';
+          document.body.classList.remove('modal-open');
+        }
+      });
+
+      left.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (index > 0) {
+          index--;
+          updateImage();
+        }
+      });
+
+      right.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (index < images.length - 1) {
+          index++;
+          updateImage();
+        }
       });
     }
 
-    // Scroll auto à 63% après chargement image
+    initPopup('logoBtn', 'popup1', [
+      'https://i.imgur.com/uGnH5XI.png',
+      'https://i.imgur.com/javiPf0.png',
+      'https://i.imgur.com/Lj0HqCo.png',
+      'https://i.imgur.com/exxUNyF.png',
+      'https://i.imgur.com/QZZqsrk.png',
+      'https://i.imgur.com/6GtLt0X.png',
+    ]);
+
+    initPopup('secondBtn', 'popup2', [
+      'https://i.imgur.com/ayNer7u.png',
+      'https://i.imgur.com/aLNoNg3.png',
+      'https://i.imgur.com/br5f9WL.png',
+      'https://i.imgur.com/78d9HDe.png',
+      'https://i.imgur.com/ZVGY4HX.png'
+    ]);
+
     window.addEventListener('DOMContentLoaded', () => {
       const container = document.getElementById('container');
       const image = document.getElementById('mainImage');
+
       const tryScroll = (maxAttempts = 30, attempt = 0) => {
         if (image && container && image.naturalHeight > 0) {
           const imageHeight = image.naturalHeight * (image.clientWidth / image.naturalWidth);
@@ -159,23 +587,126 @@
           setTimeout(() => tryScroll(maxAttempts, attempt + 1), 100);
         }
       };
-      if (image.complete) tryScroll();
-      else image.addEventListener('load', () => tryScroll());
-    });
 
-    // Plein écran
-    document.getElementById('fullscreenBtn').addEventListener('click', () => {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(err => alert(err));
-        localStorage.setItem('forceFullscreen', 'true');
+      if (image.complete) {
+        tryScroll();
       } else {
-        document.exitFullscreen();
-        localStorage.setItem('forceFullscreen', 'false');
+        image.addEventListener('load', () => tryScroll());
       }
     });
 
-    // Chargement initial salle
-    changerSalle('montagne');
-  </script>
-</body>
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    fullscreenBtn.addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(err => {
+      alert(`Erreur de passage en plein écran : ${err.message}`);
+    });
+    localStorage.setItem('forceFullscreen', 'true'); // ✅ Ajoute cette ligne
+  } else {
+    document.exitFullscreen();
+    localStorage.setItem('forceFullscreen', 'false'); // ✅ Et celle-ci pour annuler
+  }
+});
+
+    // Ouverture de la popup du Dragon
+  document.querySelector('.dragonfinal').addEventListener('click', () => {
+  document.getElementById('codePopup').style.display = 'flex';
+  document.body.classList.add('modal-open');
+  document.getElementById('secretInput').value = "";
+  document.getElementById('codeError').style.display = "none";
+});
+
+    function normalize(text) {
+      return text
+        .trim()
+        .toUpperCase()
+        .replace(/’/g, "'")
+        .replace(/[éèêë]/gi, "E")
+        .replace(/[àâä]/gi, "A")
+        .replace(/[îï]/gi, "I")
+        .replace(/[ôö]/gi, "O")
+        .replace(/[ùûü]/gi, "U")
+        .replace(/[^A-Z0-9 '\.]/g, '');
+    }
+
+// Vérification du code secret
+function checkSecretCode() {
+  const input = document.getElementById('secretInput').value;
+  const correctCode = "Que l'équilibre des cinq éveillés unisse l'ombre et la lumière. L'heure est venue... réveille-toi Dragon";
+
+  if (normalize(input) === normalize(correctCode)) {
+    document.getElementById('codePopup').style.display = 'none';
+    document.body.classList.remove('modal-open');
+    playDragonReveal();
+    // Exemple : window.location.href = "fin.html";
+  } else {
+    document.getElementById('codeError').style.display = "block";
+  }
+}
+
+    function playDragonReveal() {
+      const sequence = document.getElementById('awakeningSequence');
+      const img1 = document.getElementById('dragonStep1');
+      const img2 = document.getElementById('dragonStep2');
+
+      // Réinitialisation des styles
+      img1.style.transition = 'none';
+      img1.style.opacity = '0';
+      img1.style.transform = 'scale(0.5)';
+      img2.style.transition = 'none';
+      img2.style.opacity = '0';
+
+      // Forcer le reflow pour garantir que les changements sont pris en compte
+      void img1.offsetWidth;
+
+      // Rétablir les transitions
+      img1.style.transition = 'transform 3s ease, opacity 2s ease';
+      img2.style.transition = 'transform 3s ease, opacity 2s ease';
+    
+      // Affichage du conteneur
+      sequence.style.display = 'flex';
+
+      // Lancer l’apparition et le zoom de la première image
+      setTimeout(() => {
+        img1.style.opacity = '1';
+        img1.style.transform = 'scale(1.3)';
+      }, 50);
+
+      // Transition vers la deuxième image
+      setTimeout(() => {
+        img1.style.opacity = '0';
+        img2.style.opacity = '1';
+      }, 3500);
+
+      // Masquer la scène à la fin
+      setTimeout(() => {
+        sequence.style.display = 'none';
+      }, 8000);
+    }
+
+    </script>
+  
+    <script src="/leveildudragon/js/blocnote.js">
+
+      document.querySelector('.extmont').addEventListener('click', async (e) => {
+  e.preventDefault();
+  const container = document.getElementById('montagneContainer');
+  const target = e.currentTarget.getAttribute('data-target');
+
+  try {
+    const response = await fetch(target);
+    if (!response.ok) throw new Error('Erreur de chargement : ' + response.status);
+    const html = await response.text();
+    container.innerHTML = html;
+    container.style.display = 'block';
+    document.getElementById('container').style.display = 'none';
+  } catch (err) {
+    alert('Impossible de charger la salle : ' + err.message);
+  }
+});
+
+
+    </script>
+  
+  </body>
 </html>
