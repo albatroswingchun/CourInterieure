@@ -189,14 +189,16 @@ document.querySelectorAll('.extmont').forEach(link => {
   });
 });
 
+document.querySelectorAll('.retourIndex').forEach(link => {
+  link.addEventListener('click', () => {
+    localStorage.setItem('forceFullscreen', 'true');
+  });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
-  const wantsFullscreen = localStorage.getItem('forceFullscreen') === 'true';
-  if (wantsFullscreen && !document.fullscreenElement) {
-    document.addEventListener('click', function enableFullscreenOnce() {
-      document.documentElement.requestFullscreen().catch(err => {
-        console.warn('Échec du plein écran :', err);
-      });
-      document.removeEventListener('click', enableFullscreenOnce);
+   if (localStorage.getItem('forceFullscreen') === 'true' && !document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(err => {
+      console.warn('Échec du plein écran :', err);
     });
   }
 });
