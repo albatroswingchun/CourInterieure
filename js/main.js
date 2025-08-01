@@ -184,7 +184,8 @@ document.querySelectorAll('.extmont').forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
     localStorage.setItem('forceFullscreen', 'true');
-    window.location.href = link.getAttribute('data-target');
+     const target = link.getAttribute('data-target') || link.href;
+    window.location.href = target;
   });
 });
 
